@@ -305,15 +305,66 @@ z-index: 1000; /* Ensures it stays above other elements */
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
-    <script>
-        $(document).ready(function () {
-            $("#confirm_password").on("keyup", function () {
-                const password = $("#password").val();
-                const confirmPassword = $(this).val();
-                $("#registerError").text(password !== confirmPassword ? "Passwords do not match." : "");
-            });
-        });
-    </script>
+            <script>
+                // Register Form Validation
+                function validateRegisterForm() {
+                    const username = document.getElementById('username').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value.trim();
+                    const confirmPassword = document.getElementById('confirm_password').value.trim();
+                    const error = document.getElementById('registerError');
+        
+                    if (!username || !email || !password || !confirmPassword) {
+                        error.textContent = 'All fields are required.';
+                        return false;
+                    }
+        
+                    if (!validateEmail(email)) {
+                        error.textContent = 'Please enter a valid email address.';
+                        return false;
+                    }
+        
+                    if (
+                        password.length < 6 ||                     // At least 8 characters
+                        !/[A-Z]/.test(password) ||                 // At least one uppercase letter
+                        !/[a-z]/.test(password) ||                 // At least one lowercase letter
+                        !/[0-9]/.test(password) ||                 // At least one digit
+                        !/[\W_]/.test(password)                    // At least one special character (like !, @, #, etc.)
+                        )   {       
+                                 error.textContent = 'Password must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character.';
+                                 return false;
+                            }
+        
+                    if (password !== confirmPassword) {
+                        error.textContent = 'Passwords do not match.';
+                        return false;
+                    }   
+        
+                    error.textContent = ''; // Clear error message
+                    return true;
+                }
+        
+                // Login Form Validation
+                function validateLoginForm() {
+                    const username = document.getElementById('login_username').value.trim();
+                    const password = document.getElementById('login_password').value.trim();
+                    const error = document.getElementById('loginError');
+        
+                    if (!username || !password) {
+                        error.textContent = 'Both fields are required.';
+                        return false;
+                    }
+        
+                    error.textContent = ''; // Clear error message
+                    return true;
+                }
+        
+                // Basic Email Validation
+                function validateEmail(email) {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return re.test(email);
+                }
+            </script>
 
 </body>
 <!-- Footer -->

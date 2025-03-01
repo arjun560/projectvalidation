@@ -70,146 +70,90 @@
         </div>
     </div>
 
-    <!-- Filter Section -->
-    <div class="container my-5">
-        <div class="bg-light p-4 rounded">
-            <h3 class="mb-4">Filter Your Preferences</h3>
-            <form>
-                <div class="row g-3">
-                    <!-- Type of Tour -->
-                    <div class="col-md-6">
-                        <label for="tourType" class="form-label">Type of Tour</label>
-                        <select class="form-select" id="tourType">
-                            <option selected>Choose...</option>
-                            <option>Romantic</option>
-                            <option>Solo</option>
-                            <option>Family</option>
-                            <option>Friends</option>
-                            <option>Colleagues</option>
-                            <option>Business Trip</option>
-                            <option>Honeymoon</option>
-                            <option>Road trip</option>
-                        </select>
-                    </div>
-
-                    <!-- Accommodation Type -->
-                    <div class="col-md-6">
-                        <label for="accommodationType" class="form-label">Accommodation Type</label>
-                        <select class="form-select" id="accommodationType">
-                            <option selected>Choose...</option>
-                            <option>Hotel</option>
-                            <option>Resort</option>
-                            <option>Apartment</option>
-                            <option>Villa</option>
-                            <option>Hostel</option>
-                            <option>Guesthouse</option>
-                        </select>
-                    </div>
-
-                    <!-- Number of People -->
-                    <div class="col-md-6">
-                        <label for="numPeople" class="form-label">Number of People</label>
-                        <input type="number" class="form-control" id="numPeople" placeholder="e.g., 2">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="travelOrLocation" class="form-label">Type of Recommendation</label>
-                        <select class="form-select" id="travelOrLocation">
-                            <option selected>Choose...</option>
-                            <option value="travel">Travel-Based</option>
-                            <option value="location">Location-Based</option>
-                        </select>
-                    </div>
-
-                    <!-- Range of Tour -->
-                    <div class="col-md-6">
-                        <label for="tourRange" class="form-label">Range (Kilometers)</label>
-                        <input type="number" class="form-control" id="tourRange" placeholder="e.g., 500">
-                    </div>
-
-                    <!-- Continent/Worldwide -->
-                    <div class="col-md-6">
-                        <label for="continent" class="form-label">Continent/Worldwide</label>
-                        <select class="form-select" id="continent">
-                            <option selected>Choose...</option>
-                            <option>Africa</option>
-                            <option>Asia</option>
-                            <option>Australia</option>
-                            <option>Europe</option>
-                            <option>North America</option>
-                            <option>South America</option>
-                            <option>Worldwide</option>
-                        </select>
-                    </div>
-                   
-                   
-                    <!--country-->
-                    <div class="col-md-6">
-                        <label for="country" class="form-label">country</label>
-                        <select class="form-select" id="country">
-                            <option selected>Choose...</option>
-                            <option>Africa</option>
-                            <option>Asia</option>
-                            <option>Australia</option>
-                            <option>Europe</option>
-                            <option>North America</option>
-                            <option>South America</option>
-                            <option>Worldwide</option>
-                        </select>
-                    </div>
-
-                    <!-- Budget -->
-                    <div class="col-md-6">
-                        <label for="budget" class="form-label">Budget ($)</label>
-                        <input type="number" class="form-control" id="budget" placeholder="e.g., 1000">
-                    </div>
-
-                    <!-- Favorite Locations -->
-                    <!-- <div class="col-md-6">
-                        <label for="favoriteLocations" class="form-label">Favorite Locations</label>
-                        <select class="form-select" id="favoriteLocations" multiple>
-                            <option>Paris</option>
-                            <option>Maldives</option>
-                            <option>Bali</option>
-                            <option>New York</option>
-                            <option>Dubai</option>
-                            <option>London</option>
-                        </select>
-                    </div> -->
-
-                    <!-- Specific Locations -->
-                    <div class="col-md-6">
-                        <label for="specificLocations" class="form-label">Specific Locations</label>
-                        <input type="text" class="form-control" id="specificLocations" placeholder="e.g., Eiffel Tower, Taj Mahal">
-                    </div>
-
-                    <!-- Types of Places -->
-                    <div class="col-md-6">
-                        <label for="placesType" class="form-label">Types of Places</label>
-                        <input type="text" class="form-control" id="placesType" placeholder="e.g., Beaches, Mountains">
-                    </div>
-
-                    <!-- Number of Days -->
-                    <div class="col-md-6">
-                        <label for="numDays" class="form-label">Number of Days</label>
-                        <input type="number" class="form-control" id="numDays" placeholder="e.g., 5">
-                    </div>
-
-                    <!-- starting location -->
-                     <div class="col-md-6">
-                        <label for="slocation" class="form-label">Your starting location</label>
-                        <input type="text" class="form-control" id="slocation" placeholder="starting point">
-                     </div>
-
-
-                    <!-- Submit Button -->
-                    <div class="mt-4 text-end">
-                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        <!-- Filter Section -->
+        <form method="POST" action="{% url 'filter_tours' %}">
+            {% csrf_token %}
+        
+            <div class="container my-5">
+                <div class="bg-light p-4 rounded">
+                    <h3 class="mb-4">Filter Your Travel Preferences</h3>
+                    <div class="row g-3">
+        
+                        <!-- Tour Type -->
+                        <div class="col-md-6">
+                            <label for="tourType" class="form-label">Type of Tour</label>
+                            <select class="form-select" id="tourType" name="tour_type" required>
+                                <option value="" disabled selected>Select a tour type...</option>
+                                <option value="Romantic">Romantic</option>
+                                <option value="Solo">Solo</option>
+                                <option value="Family">Family</option>
+                                <option value="Friends">Friends</option>
+                                <option value="Business Trip">Business Trip</option>
+                                <option value="Honeymoon">Honeymoon</option>
+                                <option value="Adventure">Adventure</option>
+                            </select>
+                        </div>
+        
+                        <!-- Budget -->
+                        <div class="col-md-6">
+                            <label for="budget" class="form-label">Budget ($)</label>
+                            <input type="number" class="form-control" id="budget" name="budget" placeholder="Enter your budget" min="1" required>
+                        </div>
+        
+                        <!-- Number of Days -->
+                        <div class="col-md-6">
+                            <label for="numDays" class="form-label">Number of Days</label>
+                            <input type="number" class="form-control" id="numDays" name="num_days" placeholder="Enter number of days" min="1" required>
+                        </div>
+        
+                        <!-- Destination -->
+                        <div class="col-md-6">
+                            <label for="destination" class="form-label">Destination</label>
+                            <input type="text" class="form-control" id="destination" name="destination" placeholder="Enter continent or country" required>
+                        </div>
+        
+                        <!-- Starting Location -->
+                        <div class="col-md-6">
+                            <label for="slocation" class="form-label">Starting Location</label>
+                            <input type="text" class="form-control" id="slocation" name="starting_location" placeholder="Enter your starting point" required>
+                        </div>
+        
+                        <!-- Accommodation Type -->
+                        <div class="col-md-6">
+                            <label for="accommodationType" class="form-label">Accommodation Type</label>
+                            <select class="form-select" id="accommodationType" name="accommodation_type" required>
+                                <option value="" disabled selected>Select accommodation...</option>
+                                <option value="Hotel">Hotel</option>
+                                <option value="Resort">Resort</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Campsite">Campsite</option>
+                                <option value="Guesthouse">Guesthouse</option>
+                            </select>
+                        </div>
+        
+                        <!-- Interest of Travel -->
+                        <div class="col-md-6">
+                            <label for="activities" class="form-label">Interest of Travel</label>
+                            <input type="text" class="form-control" id="activities" name="interest" placeholder="e.g., Beaches, Hiking, Museums">
+                        </div>
+        
+                        <!-- Distance Range -->
+                        <div class="col-md-6">
+                            <label for="distanceRange" class="form-label">Distance Range (KM)</label>
+                            <input type="number" class="form-control" id="distanceRange" name="distance_range" placeholder="Max distance in kilometers" min="1">
+                        </div>
+        
+                        <!-- Submit Button -->
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </div>
+        
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
+        </form>
+        
+        <!-- filter end -->
 
     <!-- Recommendations Section -->
     <div class="container-xxl py-5">
@@ -225,7 +169,7 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="package-item">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{ % script 'img/package-1.jpg'"% } alt="">
+                            <img class="img-fluid" src="{ % script 'img/package-1.jpg'% }" alt="">
                         </div>
                         <div class="d-flex border-bottom">
                             <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt text-primary me-2"></i>Thailand</small>
@@ -243,7 +187,7 @@
                             </div>
                             <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="{% url 'package' %}" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
                                 <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Favorite</a>
                             </div>
                         </div>

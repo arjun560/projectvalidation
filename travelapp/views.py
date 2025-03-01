@@ -3,12 +3,13 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from .models import Test
 
 
 # Create your views here.
 
-def index(request):
-    return render(request,'index.html')
+# def index(request):
+#     return render(request,'index.html')
 
 def about(request):
     return render(request,'about.html')
@@ -46,6 +47,9 @@ def testimonial(request):
 def profile(request):
     return render(request,'profile.html')
 
+def package(request):
+    return render(request,'package.html')
+
 #user registration
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -58,12 +62,13 @@ def register_view(request):
         username = request.POST.get('username', '').strip()
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
-        confirmpassword = request.POST.get('confirmpassword', '')
+        confirmpassword = request.POST.get('confirm_password', '')
 
-        if not all([username, email, password, confirmpassword]):
+        if not username or not email or not password  or not confirmpassword:
             messages.error(request, 'Please fill all the fields.')
         elif password != confirmpassword:
             messages.error(request, 'Passwords do not match.')
+            return redirect('register_view')
         elif User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists.')
         elif User.objects.filter(email=email).exists():
@@ -91,3 +96,61 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
 
     return render(request, 'login.html', {'page': 'login'})
+
+    #Testimonial form
+# from .forms import testform
+# # from .models import Test
+# def testimonial(request):
+#         if request.method == 'POST':
+#             form = testform(request.POST)
+#             if form.is_valid():
+#                 form.save()
+#                 return redirect('testimonial')
+#         else:
+#             form = testform()
+#         return render(request,'review.html',{'form':form})   
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from .models import Test
+
+def index(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        location = request.POST.get('location', '').strip()
+        review = request.POST.get('review', '').strip()
+
+        # Validate fields
+        if not all([name, email, location, review]):
+            messages.error(request, 'Please fill all the fields.')
+        else:
+            try:
+                validate_email(email)
+                # Save to database
+                Test.objects.create(name=name, email=email, location=location, review=review)
+                messages.success(request, 'Review submitted successfully.')
+                return redirect('contact')
+            except ValidationError:
+                messages.error(request, 'Invalid email address.')
+            except Exception as e:
+                messages.error(request, 'An error occurred. Please try again.')
+
+    return render(request, 'index.html')
+
+from django.shortcuts import render, redirect
+from .forms import TourPreferenceForm
+
+def filter_tours(request):
+    if request.method == 'POST':
+        form = TourPreferenceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Filters applied successfully!')
+            return redirect('recomendations')  # Adjust this if needed
+    else:
+        form = TourPreferenceForm()
+    
+    return render(request, 'recomendations.html', {'form': form})
+    
